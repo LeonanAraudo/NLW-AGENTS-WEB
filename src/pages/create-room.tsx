@@ -1,31 +1,19 @@
-import { useQuery } from "@tanstack/react-query";
-import { Link } from "react-router-dom";
+import { CreateRoomForm } from "@/components/create-room-form";
+import { RoomList } from "@/components/room-list";
 
-type GetRoomsAPIResponse = Array<{
-    id: string,
-    name: string
-}>//é usado para organizar as inofrmações de result
-
-//Pagina que o usuário vai acessar quando ele entrar na aplicação
+// Pagina que o usuário vai acessar quando ele entrar na aplicação
 export function CreateRoom(){
 
-const {data, isLoading } = useQuery({
-    queryKey: ['get-rooms'], //Identificador único para a chamada http
-    queryFn: async () => {
-        const response = await fetch('http://localhost:3333/rooms')
-        const result: GetRoomsAPIResponse = await response.json()
-        return result
-    } //Qual função vai executar para trazer os dados da api
-})
+
 
     return(
-        <div>
-             {isLoading ? <p>carregando</p> : null}
-             <div className="flex flex-col gap-1">
-                {data?.map((room) => {
-                    return <Link key={room.id} to={`/rooms/${room.id}`}>{room.name}</Link>
-                })}
-             </div>
+        <div className="min-h-screen px-4 py-8">
+            <div className="mx-auto max-w-4xl">
+                <div className="grid grid-cols-2 items-start gap-8">
+                    <CreateRoomForm/>
+                    <RoomList/>
+                </div>
+            </div>
         </div>
     )
 }
